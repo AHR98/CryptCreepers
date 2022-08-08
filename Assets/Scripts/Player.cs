@@ -9,6 +9,7 @@ public class Player : MonoBehaviour
     [SerializeField] float fireRate = 1;
     [SerializeField] Transform bulletPrefab;
     [SerializeField] int health = 10;
+    [SerializeField] SpriteRenderer spriteRenderPlayer;
     [SerializeField] float invulnerableTime = 3;
     public float speed = 5;
     Vector3 movePosition;
@@ -18,6 +19,7 @@ public class Player : MonoBehaviour
     float vertical;
     int numOfBullets = 1;
     bool invulnerable;
+    [SerializeField] Animator animPlayer;
     public int Health
     {
         get => health;
@@ -30,6 +32,7 @@ public class Player : MonoBehaviour
     void Start()
     {
         // GameManager.instance.Dummy();
+
     }
 
     // Update is called once per frame
@@ -49,9 +52,10 @@ public class Player : MonoBehaviour
         facingDirection = cameraGame.ScreenToWorldPoint(Input.mousePosition) - transform.position;
         aim.position = transform.position + (Vector3)facingDirection.normalized;
 
-        
+        animPlayer.SetFloat("Speed", movePosition.magnitude);
+
         //Bullets
-        if(Input.GetMouseButton(0) && isLoaded && numOfBullets <= 5) //Left button of the mouse
+        if (Input.GetMouseButton(0) && isLoaded && numOfBullets <= 5) //Left button of the mouse
         {
                      
             angleOfCamera = Mathf.Atan2(facingDirection.y, facingDirection.x) * Mathf.Rad2Deg;
@@ -66,7 +70,14 @@ public class Player : MonoBehaviour
             StartCoroutine(reloadBullets());
            
         }
-        
+        if(aim.position.x > transform.position.x)
+        {
+            spriteRenderPlayer.flipX = true;
+        }
+        else if(aim.position.x < transform.position.x)  
+        {
+            spriteRenderPlayer.flipX = false;
+        }
     }
 
     IEnumerator ReloadGun()
