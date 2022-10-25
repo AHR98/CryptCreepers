@@ -19,7 +19,15 @@ public class GameManager : MonoBehaviour
     
     private void Start()
     {
+        UIManager.instance.showStartScreen();
+
+        //StartCoroutine(CountdownRutine());
+    }
+
+    public void startGame()
+    {
         StartCoroutine(CountdownRutine());
+
     }
     IEnumerator CountdownRutine()
     {

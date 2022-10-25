@@ -10,12 +10,15 @@ public class UIManager : MonoBehaviour
     [SerializeField] Text timeText;
     [SerializeField] Text finalScoreText;
     [SerializeField] GameObject gameOverScreen;
+    [SerializeField] GameObject startScreen;
+    [SerializeField] GameObject gameBackground;
 
     private void Awake()
     {
         if(instance == null)
         {
             instance = this;
+            showStartScreen();
         }
     }
     public void showGameOverScreen()
@@ -34,5 +37,18 @@ public class UIManager : MonoBehaviour
     public void updateUITime(int _newTime)
     {
         timeText.text = _newTime.ToString();
+    }
+    public void showStartScreen()
+    {
+        Time.timeScale = 0;
+        startScreen.SetActive(true);
+        gameOverScreen.SetActive(false);
+    }
+    public void showGameBackground()
+    {
+        gameBackground.SetActive(true);
+        startScreen.SetActive(false);
+        Time.timeScale = 1;
+        GameManager.instance.startGame();
     }
 }
